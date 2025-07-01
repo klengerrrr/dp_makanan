@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pencatatan DP Makanan</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <div class="max-w-3xl mx-auto py-10 px-4">
+    <h1 class="text-3xl font-bold text-center text-green-800 mb-6">Pencatatan DP Makanan</h1>
+    <form id="dpForm" class="bg-white shadow-md rounded-lg p-6 space-y-4">
+      <div>
+        <label class="block font-semibold mb-1">Jenis Menu</label>
+        <select id="jenisMenu" class="w-full border rounded px-3 py-2" required>
+          <option value="">-- Pilih Menu --</option>
+           <option>DP 10 PAKET SU UDON N ES KLENGER</option>
+                <option>DP 10 PAKET MIE AH YANG N ES KOPYOR</option>
+                <option>DP 10 PAKET MISO SOUP N ES OCHA</option>
+                <option>DP 10 PAKET SATE KLENGER N MANCHEP LOTTE </option>
+                <option>DP 10 PAKET  KUE LEMPAR ES NGANGGUR</option>
+                <option>DP 10 PAKET KENTANG GOYANG N ES TIRAMISSYOU</option>
+                <option>DP 10 PAKET KUE BOLONG N ES KERAM</option>
+                <option>DP 10 PAKET SPAKET KUE APE N ES TOMBRUT</option>
+                <option>DP 250 SUSU KEMASAN</option>
+        </select>
+      </div>
+      <div>
+        <label class="block font-semibold mb-1">Nama Chef</label>
+        <select id="namaChef" class="w-full border rounded px-3 py-2" required>
+          <option value="">-- Pilih Chef --</option>
+          <option value="Chef Ali">Chef Gibran</option>
+          <option value="Chef Budi">Chef Nina</option>
+          <option value="Chef Clara">Chef Marce</option>
+          <option value="Chef Dedi">Chef Mix Cell</option>
+          <option value="Chef Budi">Chef Janshen</option>
+          <option value="Chef Clara">Chef Dhika</option>
+          <option value="Chef Dedi">Chef Arey</option>
+          <option value="Chef Budi">Chef Ichika</option>
+          <option value="Chef Clara">Chef Cecep</option>
+          <option value="Chef Dedi">Chef Nedss</option>
+          <option value="Chef Dedi">Chef Doleng</option>
+        </select>
+      </div>
+      <div>
+        <label class="block font-semibold mb-1">Tanggal</label>
+        <input type="date" id="tanggal" class="w-full border rounded px-3 py-2" required />
+      </div>
+      <div>
+        <label class="block font-semibold mb-1">Keterangan</label>
+        <input type="text" id="keterangan" placeholder="Keterangan..." class="w-full border rounded px-3 py-2" />
+      </div>
+      <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">Simpan</button>
+    </form>
+
+    <h2 class="text-2xl font-bold text-center text-gray-700 mt-10 mb-4">Rekap Nama Chef</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white border border-gray-300">
+        <thead>
+          <tr class="bg-green-700 text-white">
+            <th class="px-4 py-2 border">No</th>
+            <th class="px-4 py-2 border">Jenis Menu</th>
+            <th class="px-4 py-2 border">Nama Chef</th>
+            <th class="px-4 py-2 border">Tanggal</th>
+            <th class="px-4 py-2 border">Keterangan</th>
+          </tr>
+        </thead>
+        <tbody id="rekapTable" class="text-center">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('dpForm');
+    const rekapTable = document.getElementById('rekapTable');
+    let count = 0;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const jenisMenu = document.getElementById('jenisMenu').value;
+      const namaChef = document.getElementById('namaChef').value;
+      const tanggal = document.getElementById('tanggal').value;
+      const keterangan = document.getElementById('keterangan').value;
+
+      count++;
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td class="border px-4 py-2">${count}</td>
+        <td class="border px-4 py-2">${jenisMenu}</td>
+        <td class="border px-4 py-2">${namaChef}</td>
+        <td class="border px-4 py-2">${tanggal}</td>
+        <td class="border px-4 py-2">${keterangan}</td>
+      `;
+      rekapTable.appendChild(row);
+
+      const data = { jenisMenu, namaChef, tanggal, keterangan };
+      await fetch("https://script.google.com/macros/s/AKfycbw5NMvbV9RQKw6mkqnKDf2JlDTXJyQ_7Eeuqq_mpW2QvfeUEGZdTeIpoGaPoT1k2qeh/exec", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" }
+      });
+
+      form.reset();
+    });
+  </script>
+</body>
+</html>
